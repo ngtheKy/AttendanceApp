@@ -10,5 +10,9 @@ module.exports = function(app) {
   app.route('/nhanvien/:Id')
     .get(Ctrl.detail)
     .put(Ctrl.update)
-    .delete(Ctrl.delete);
+    .delete(Ctrl.delete)
+    .patch(Ctrl.patch)
+  // app.route('nhanvien/:Id/upload')
+  //   .post()
+  //   .patch()
 };

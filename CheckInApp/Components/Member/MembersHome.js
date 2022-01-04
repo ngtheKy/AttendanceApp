@@ -10,6 +10,8 @@ import { Icon } from 'react-native-elements'
 import AddMember from './AddMember'
 import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
+import { Buffer } from "buffer"
+
 
 
 const MembersHome = ({ navigation }) => {
@@ -28,16 +30,27 @@ const MembersHome = ({ navigation }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [BgColor, setBgColor] = useState('white')
+    const [imgData, setImgData] = useState()
+
+
+ 
+    
 
     useEffect(() => {
         axios.get(`http://192.168.1.14:3000/nhanvien`)
         .then(res => {
             const member = res.data.nhanvien;
             setMemberData( member );
-            // console.log(member)
+            // console.log(member[0].Hinhanh.data   )
+            const b64 = new Buffer(member[0].Hinhanh.data).toString('base64')
+            // console.log(b64)
+            setImgData(b64)
+           
         })
         .catch(error => console.log(error));
             }, [count])
+            
+    
 
     const MemberList = ({ item, onPress }) => {
 
@@ -71,7 +84,7 @@ const MembersHome = ({ navigation }) => {
                     <Text>Phòng ban: {item.TenPhongban}</Text>
                     <Text>SĐT: {item.Sdt}</Text>
                 </View>
-                <Image source={{ uri: 'https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_960_720.png' }}
+                <Image source={{uri: `data:image/jpeg;base64,${imgData}`} }
                     style={{
                         width: 100,
                         height: 100,

@@ -4,6 +4,7 @@ import { View, Text } from 'react-native'
 import MemberDetail from '../../Components/Member/MemberDetail'
 import MembersHome from '../../Components/Member/MembersHome'
 import AddMember from '../../Components/Member/AddMember'
+import updateInfoMember from '../../Components/Member/updateInfoMember'
 
 const Stack = createStackNavigator()
 
@@ -21,6 +22,7 @@ export default function Members() {
             <Stack.Screen name='Nhân viên' component={MembersHome} />
             <Stack.Screen name='Thông tin nhân viên' component={MemberDetail} />
             <Stack.Screen name='Hồ sơ nhân viên' component={AddMember} />
+            <Stack.Screen name='Thay đổi thông tin nhân viên' component={updateInfoMember} />
         </Stack.Navigator>
     )
 }
