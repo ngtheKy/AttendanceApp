@@ -46,7 +46,7 @@ const updateInfoMember = ({route}) => {
 
                     <Input
                         onChangeText={(value) => setInput([...input, {TenNV: value}])}
-                        value={text}
+                        value={input}
                         label={'Họ và tên'}
                         placeholder={item.HoNV,item.TenNV}
                         keyboardType='default'
@@ -54,14 +54,14 @@ const updateInfoMember = ({route}) => {
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {Email: value}])}
-                        value={text}
+                        value={input}
                         label={'Email'}
                         placeholder={item.Email}
                         keyboardType='email-address'
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {Password: value}])}
-                        value={text}
+                        value={input}
                         label={'Mật khẩu'}
                         placeholder={item.Password}
                         keyboardType='default'
@@ -73,21 +73,21 @@ const updateInfoMember = ({route}) => {
 
                     <Input
                         onChangeText={(value) => setInput([...input, {id: value}])}
-                        value={text}
+                        value={input}
                         label={'Mã Nhân viên'}
                         placeholder={item.id}
                         keyboardType='default'
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {TenPhongban: value}])}
-                        value={text}
+                        value={input}
                         label={'Phòng ban, Bộ phận'}
                         placeholder={item.TenPhongban}
                         keyboardType='email-address'
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {Ngaysinh: value}])}
-                        value={text}
+                        value={input}
                         label={'Ngày sinh'}
                         placeholder={item.Ngaysinh}
                         keyboardType='default'
@@ -103,7 +103,7 @@ const updateInfoMember = ({route}) => {
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {CCCD: value}])}
-                        value={text}
+                        value={input}
                         label={'Căn cước công dân'}
                         placeholder={item.CCCD}
                         keyboardType='default'
@@ -112,7 +112,7 @@ const updateInfoMember = ({route}) => {
                     
                     <Input
                         onChangeText={(value) => setInput([...input, {Quequan: value}])}
-                        value={text}
+                        value={input}
                         label={'Quê quán'}
                         keyboardType='default'
                         placeholder={item.Quequan}
@@ -120,7 +120,7 @@ const updateInfoMember = ({route}) => {
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {Diachi: value}])}
-                        value={text}
+                        value={input}
                         label={'Địa chỉ hiện tại'}
                         keyboardType='default'
                         placeholder={item.Diachi}
@@ -128,7 +128,7 @@ const updateInfoMember = ({route}) => {
                     />
                     <Input
                         onChangeText={(value) => setInput([...input, {Sdt: value}])}
-                        value={text}
+                        value={input}
                         label={'Số điện thoại'}
                         keyboardType='default'
                         placeholder={item.Sdt}
