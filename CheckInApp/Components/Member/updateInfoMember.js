@@ -85,7 +85,7 @@ const updateInfoMember = ({route, navigation}) => {
 
   const update = () => {
     axios
-      .patch(`http://192.168.216.57:3000/nhanvien/${data.id}`, input)
+      .patch(`http://192.168.1.14:3000/nhanvien/${data.id}`, input)
       .then(res => {
         console.log(res.status);
         Alert.alert('Thông báo', 'Cập nhật thông tin thành công', [

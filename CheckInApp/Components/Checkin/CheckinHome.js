@@ -8,6 +8,7 @@ import {
   PermissionsAndroid,
   Platform,
   FlatList,
+  Alert,
 } from 'react-native';
 import MapView, {Marker} from 'react-native-maps';
 import Clock from 'react-live-clock';
@@ -15,6 +16,7 @@ import DeviceInfo from 'react-native-device-info';
 import Geolocation from 'react-native-geolocation-service';
 import {Icon} from 'react-native-elements';
 import {DataTable} from 'react-native-paper';
+import axios from 'axios';
 
 let date = new Date();
 let hours = date.getHours();
@@ -29,33 +31,6 @@ let seconds = date.getSeconds();
 //   return `0${time}`
 // }
 
-const dummy = [
-  {id: 1, date: '10/01', weekday: 'monday', timein: '08:00', timeout: '12:00'},
-  {id: 2, date: '11/01', weekday: 'tuesday', timein: '08:00', timeout: '17:00'},
-  {
-    id: 3,
-    date: '12/01',
-    weekday: 'wednesday',
-    timein: '08:00',
-    timeout: '17:00',
-  },
-  {
-    id: 4,
-    date: '13/01',
-    weekday: 'thursday',
-    timein: '08:00',
-    timeout: '17:00',
-  },
-  {id: 5, date: '14/01', weekday: 'friday', timein: '08:00', timeout: '17:00'},
-  {
-    id: 6,
-    date: '15/01',
-    weekday: 'saturday',
-    timein: '08:00',
-    timeout: '17:00',
-  },
-];
-
 const CheckinHome = () => {
   const [clockState, setClockState] = useState();
   const [currentLongitude, setCurrentLongitude] = useState(null);
@@ -63,6 +38,73 @@ const CheckinHome = () => {
   const [locationStatus, setLocationStatus] = useState('');
   const [lat, setLat] = useState(21.030653);
   const [long, setLong] = useState(105.84713);
+  const [check, setCheck] = useState(false);
+  const [input, setInput] = useState({
+    lat: '',
+    long: '',
+    Weekday: '',
+    date: '',
+    year: '',
+    timein: '',
+    timeout: '',
+  });
+  const [btnColor, setBtnColor] = useState('#0796dc');
+  const [chamcong, setChamcong] = useState();
+  const [dateTrue, setDateTrue] = useState(false);
+  const [count, setCount] = useState(0);
+
+  var options = {hour12: false};
+  const logs = new Date();
+  const hour = logs.getHours();
+  const min = logs.getMinutes();
+  const timeout = `${hour}:${min}`.toLocaleString('en-US', options);
+  // const day = logs.getDay();
+  const date = logs.getDate();
+  const month = logs.getMonth() + 1;
+  const date2 = `${date}/${month}`;
+
+  useEffect(() => {
+    axios
+      .get(`http://192.168.1.14:3000/chamcong`)
+      .then(res => {
+        const data = res.data.chamcong;
+        setChamcong(data);
+        // const b64 = new Buffer(member[0].Hinhanh.data).toString('base64');
+        // setImgData(b64);
+      })
+      .catch(error => console.log(error));
+  }, [count]);
+
+  const post = () => {
+    axios
+      .post(`http://192.168.1.14:3000/chamcong/`, input)
+      .then(res => {
+        console.log(res.status);
+        // Alert.alert('Chấm công', 'Check in thành công!', [
+        //   {
+        //     text: 'Ok',
+        //   },
+        // ]);
+      })
+      .catch(error => console.log(error));
+  };
+
+  const update = () => {
+    axios
+      .patch(
+        `http://192.168.1.14:3000/chamcong/${chamcong[0].idChamcong}`,
+        input,
+      )
+      .then(res => {
+        console.log(res.status);
+        // Alert.alert('Thông báo', 'Check Out thành công', [
+        //   {
+        //     text: 'Ok',
+        //   },
+        // ]);
+      })
+      .catch(error => console.log(error));
+  };
 
   useEffect(() => {
     const requestLocationPermission = async () => {
@@ -90,6 +132,7 @@ const CheckinHome = () => {
         }
       }
     };
+
     requestLocationPermission();
     return () => {
       Geolocation.clearWatch(watchID);
@@ -147,18 +190,95 @@ const CheckinHome = () => {
     }, 1000);
   }, []);
 
-  // console.log(currentLatitude);
+  useEffect(() => {
+    var options = {hour12: false};
+    const logs = new Date();
+    // const day = logs.getDay();
+    const date = logs.getDate();
+    const month = logs.getMonth() + 1;
+    const year = logs.getFullYear();
+    const hour = logs.getHours();
+    const min = logs.getMinutes();
+    const timein = `${hour}:${min}`.toLocaleString('en-US', options);
+    const date2 = `${date}/${month}`;
+    // setInput({
+    //   lat: lat,
+    //   long: long,
+    //   Weekday: null,
+    //   date: date2,
+    //   year: year,
+    //   timein: timein,
+    // });
+    function Week() {
+      switch (new Date().getDay()) {
+        case 0:
+          day = 'Chủ nhật';
+          break;
+        case 1:
+          day = 'Thứ 2';
+          break;
+        case 2:
+          day = 'Thứ 3';
+          break;
+        case 3:
+          day = 'Thứ 4';
+          break;
+        case 4:
+          day = 'Thứ 5';
+          break;
+        case 5:
+          day = 'Thứ 6';
+          break;
+        case 6:
+          day = 'Thứ 7';
+      }
+      return (
+        day,
+        setInput({
+          lat: lat,
+          long: long,
+          date: date2,
+          year: year,
+          timein: timein,
+          Weekday: day,
+        })
+      );
 
+      // console.log(day);
+    }
+    Week();
+  }, []);
+
+  if (count === 1000) {
+    setCount(0);
+  }
   function marker() {
     if (currentLatitude !== null) {
       setLat(currentLatitude);
-      // console.log(typeof lat);
     }
     if (currentLongitude !== null) {
       setLong(currentLongitude);
-      // console.log(typeof long);
     }
-    console.log(lat, long);
+
+    setCount(count + 1);
+    if (check == false) {
+      setBtnColor('#f57171');
+
+      if (chamcong.length > 0) {
+        if (date2 == chamcong[chamcong.length - 1].date) {
+          null;
+        }
+      } else {
+        post();
+      }
+      setInput({...input, timeout: timeout});
+      console.log('checkin');
+    } else {
+      setBtnColor('#0796dc');
+
+      update();
+    }
+    setCheck(!check);
   }
 
   const LogData = ({item}) => {
@@ -195,31 +315,40 @@ const CheckinHome = () => {
           />
         </MapView>
       </View>
-      <TouchableOpacity style={styles.checkin} onPress={() => marker()}>
+      <TouchableOpacity
+        style={{...styles.checkin, backgroundColor: btnColor}}
+        onPress={() => marker()}>
         <Text style={styles.clock}>{clockState}</Text>
-        <Text style={styles.checkinBtn}>CHECK IN</Text>
+        <Text style={styles.checkinBtn}>
+          {check == false ? 'CHECK IN' : 'CHECK OUT'}
+        </Text>
       </TouchableOpacity>
       <View style={styles.logs}>
         <View style={styles.headerLogs}>
           <Icon type="material-community" name="calendar-clock" size={20} />
           <Text style={{fontSize: 18, fontWeight: '600', marginLeft: 5}}>
-            Lastest Attendance Logs
+            Nhật ký chấm công
           </Text>
         </View>
         <View style={styles.logsData}>
           <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Date</DataTable.Title>
-              <DataTable.Title>Weekday</DataTable.Title>
-              <DataTable.Title numeric>First In</DataTable.Title>
-              <DataTable.Title numeric>Last Out</DataTable.Title>
+            <DataTable.Header
+              style={{
+                height: 40,
+                // backgroundColor: 'gray',
+                alignItems: 'center',
+              }}>
+              <DataTable.Title>Ngày tháng</DataTable.Title>
+              <DataTable.Title>Thứ</DataTable.Title>
+              <DataTable.Title numeric>Check In</DataTable.Title>
+              <DataTable.Title numeric>Check Out</DataTable.Title>
             </DataTable.Header>
 
             <FlatList
               style={{width: '100%', height: '87%', backgroundColor: 'white'}}
-              data={dummy}
+              data={chamcong}
               renderItem={({item}) => <LogData item={item} />}
-              keyExtractor={item => item.id}
+              keyExtractor={item => item.idChamcong}
             />
           </DataTable>
         </View>
@@ -254,7 +383,7 @@ const styles = StyleSheet.create({
   checkin: {
     // width: '100%',
     height: 60,
-    backgroundColor: '#0796dc',
+    // backgroundColor: '#0796dc',
     marginHorizontal: 10,
     marginTop: 10,
     borderRadius: 5,
