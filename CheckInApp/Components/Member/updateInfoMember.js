@@ -16,7 +16,7 @@ import {Input, Icon, CheckBox} from 'react-native-elements';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Buffer} from 'buffer';
-import nextId, {useId} from 'react-id-generator';
+// import nextId, {useId} from 'react-id-generator';
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 
@@ -46,7 +46,7 @@ const updateInfoMember = ({route, navigation}) => {
   const [date, setDate] = useState(new Date(1640995200000));
   const [birthDay, setBirthDay] = useState('1-1-2022');
 
-  const id = nextId('178131000');
+  // const id = nextId('178131000');
 
   const data = route.params;
   // console.log(data)
@@ -62,7 +62,7 @@ const updateInfoMember = ({route, navigation}) => {
     Quequan: `${Quequan}`,
     Sdt: `${Sdt}`,
     idDevice: `${idDevice}`,
-    id: `${id}`,
+    // id: `${id}`,
     Diachi: `${Diachi}`,
   };
 
@@ -229,7 +229,8 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valTenNV()}
             value={TenNV}
             label={'Họ và tên'}
-            placeholder={item.TenNV}
+            placeholder={`${item.TenNV}`}
+            defaultValue={item.TenNV}
             keyboardType="default"
             // disabled='true'
             maxLength={255}
@@ -241,15 +242,16 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valEmail()}
             value={Email}
             label={'Email'}
-            placeholder={item.Email}
+            placeholder={`${item.Email}`}
             keyboardType="email-address"
+            defaultValue={item.Email}
           />
           <Input
             onChangeText={value => setPassword(value)}
             onEndEditing={() => validatePass()}
-            value={item.Password}
+            value={Password}
             label={'Mật khẩu'}
-            // placeholder={item.Password}
+            placeholder={`${item.Password}`}
             keyboardType="default"
             secureTextEntry={On}
             rightIcon={
@@ -277,16 +279,17 @@ const updateInfoMember = ({route, navigation}) => {
                 onPress={() => togglePassword1()}
               />
             }
-            ref={ref_input2}
+            // ref={ref_input2}
           />
         </View>
         <Text style={styles.formHeader}>Hồ sơ nhân viên</Text>
         <View className="Mem-profile" style={styles.form}>
           <Input
             // onChangeText={(value) => setid(value)}
-            value={item.id}
+            // value={id}
             label={'Mã Nhân viên'}
-            // placeholder={item.id}
+            placeholder={`${item.id}`}
+            defaultValue={item.id}
             keyboardType="default"
             editable={false}
           />
@@ -382,7 +385,8 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valCCCD()}
             value={CCCD}
             label={'Căn cước công dân'}
-            //placeholder={item.CCCD}
+            placeholder={`${item.CCCD}`}
+            defaultValue={item.CCCD}
             keyboardType="number-pad"
             // secureTextEntry={true}
             maxLength={12}
@@ -393,8 +397,9 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valQuequan()}
             value={Quequan}
             label={'Quê quán'}
+            defaultValue={`${item.Quequan}`}
             keyboardType="default"
-            //placeholder={item.Quequan}
+            placeholder={item.Quequan}
             // secureTextEntry={true}
             maxLength={255}
             autoCapitalize={'words'}
@@ -404,8 +409,9 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valDiachi()}
             value={Diachi}
             label={'Địa chỉ hiện tại'}
+            defaultValue={`${item.Diachi}`}
             keyboardType="default"
-            //placeholder={item.Diachi}
+            placeholder={item.Diachi}
             // secureTextEntry={true}
             maxLength={255}
             autoCapitalize={'words'}
@@ -415,8 +421,9 @@ const updateInfoMember = ({route, navigation}) => {
             onEndEditing={() => valSdt()}
             value={Sdt}
             label={'Số điện thoại'}
+            defaultValue={item.Sdt}
             keyboardType="number-pad"
-            //placeholder={item.Sdt}
+            placeholder={`${item.Sdt}`}
             // secureTextEntry={true}
             maxLength={12}
           />

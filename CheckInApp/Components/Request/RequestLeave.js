@@ -1,10 +1,14 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-export default function RequestLeave() {
-    return (
-        <View>
-            <Text></Text>
-        </View>
-    )
-}
+const RequestLeave = () => {
+  return (
+    <View>
+      <Text></Text>
+    </View>
+  );
+};
+
+export default RequestLeave;
+
+const styles = StyleSheet.create({});

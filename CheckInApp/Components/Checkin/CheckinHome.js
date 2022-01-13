@@ -10,7 +10,11 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import MapView, {Marker} from 'react-native-maps';
+import MapView, {
+  Marker,
+  AnimatedRegion,
+  MarkerAnimated,
+} from 'react-native-maps';
 import Clock from 'react-live-clock';
 import DeviceInfo from 'react-native-device-info';
 import Geolocation from 'react-native-geolocation-service';
@@ -44,6 +48,7 @@ const CheckinHome = () => {
     long: '',
     Weekday: '',
     date: '',
+    month: '',
     year: '',
     timein: '',
     timeout: '',
@@ -90,6 +95,7 @@ const CheckinHome = () => {
   };
 
   const update = () => {
+    delete input.timein;
     axios
       .patch(
         `http://192.168.1.14:3000/chamcong/${chamcong[0].idChamcong}`,
@@ -106,6 +112,62 @@ const CheckinHome = () => {
       .catch(error => console.log(error));
   };
 
+  useEffect(() => {
+    function DayinWeek() {
+      switch (new Date().getDay()) {
+        case 0:
+          day = 'Chủ nhật';
+          break;
+        case 1:
+          day = 'Thứ 2';
+          break;
+        case 2:
+          day = 'Thứ 3';
+          break;
+        case 3:
+          day = 'Thứ 4';
+          break;
+        case 4:
+          day = 'Thứ 5';
+          break;
+        case 5:
+          day = 'Thứ 6';
+          break;
+        case 6:
+          day = 'Thứ 7';
+      }
+      return day;
+
+      // console.log(day);
+    }
+    DayinWeek();
+    if (day == 'Chủ nhật') {
+      // console.log(day == 'Thứ 5');
+      chamcong.map(item => {
+        delete item.idChamcong;
+        delete item.delId;
+        axios
+          .post(`http://192.168.1.14:3000/chamcongthang/`, item)
+          .then(res => {
+            console.log(res.status);
+            // Alert.alert('Chấm công', 'Check in thành công!', [
+            //   {
+            //     text: 'Ok',
+            //   },
+            // ]);
+          })
+          .catch(error => console.log(error));
+      });
+      axios
+        .delete(`http://192.168.1.14:3000/chamcong`)
+        .then(res => {
+          // console.log(res);
+          console.log(res.data);
+          // Alert.alert('Xóa thành công!');
+        })
+        .catch(error => console.log(error));
+    }
+  }, []);
   useEffect(() => {
     const requestLocationPermission = async () => {
       if (Platform.OS === 'ios') {
@@ -237,7 +299,8 @@ const CheckinHome = () => {
         setInput({
           lat: lat,
           long: long,
-          date: date2,
+          date: date,
+          month: month,
           year: year,
           timein: timein,
           Weekday: day,
@@ -262,6 +325,7 @@ const CheckinHome = () => {
 
     setCount(count + 1);
     if (check == false) {
+      //checkin press
       setBtnColor('#f57171');
 
       if (chamcong.length > 0) {
@@ -272,8 +336,9 @@ const CheckinHome = () => {
         post();
       }
       setInput({...input, timeout: timeout});
-      console.log('checkin');
+      // console.log('checkin');
     } else {
+      //checkout press
       setBtnColor('#0796dc');
 
       update();
@@ -284,7 +349,7 @@ const CheckinHome = () => {
   const LogData = ({item}) => {
     return (
       <DataTable.Row style={{height: 60}}>
-        <DataTable.Cell>{item.date}</DataTable.Cell>
+        <DataTable.Cell>{`${item.date}/${item.month}`}</DataTable.Cell>
         <DataTable.Cell>{item.weekday}</DataTable.Cell>
         <DataTable.Cell numeric>{item.timein}</DataTable.Cell>
         <DataTable.Cell numeric>{item.timeout}</DataTable.Cell>
@@ -305,8 +370,10 @@ const CheckinHome = () => {
             latitudeDelta: 0.05, //0.0922,
             longitudeDelta: 0.05, //0.0421,
           }}
-          showsUserLocation={true}>
-          <Marker
+          showsUserLocation={true}
+          followsUserLocation={true}
+          moveOnMarkerPress={true}>
+          <MarkerAnimated
             key={1}
             coordinate={{
               latitude: Number(lat),

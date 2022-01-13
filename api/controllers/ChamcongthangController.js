@@ -4,7 +4,7 @@ const db = require("../db");
 
 module.exports = {
   get: (req, res) => {
-    let sql = "SELECT * FROM `chamcong`";
+    let sql = "SELECT * FROM `chamcongthang`";
     db.query(sql, (err, response) => {
       if (err) throw err;
       res.status(200).json({
@@ -15,20 +15,20 @@ module.exports = {
     });
   },
   detail: (req, res) => {
-    let sql = "SELECT * FROM chamcong WHERE idChamcong = ?";
+    let sql = "SELECT * FROM chamcongthang WHERE idChamcongthang = ?";
     db.query(sql, [req.params.Id], (err, response) => {
       if (err) throw err;
       res.json({
         status_code: 200,
         message: "Success",
-        chamcong: response[0],
+        chamcongthang: response[0],
       });
     });
   },
   update: (req, res) => {
     let data = req.body;
     let Id = req.params.Id;
-    let sql = "UPDATE chamcong SET ? WHERE idChamcong = ?";
+    let sql = "UPDATE chamcongthang SET ? WHERE idChamcongthang = ?";
     // if(!data.id ){
 
     //     return res.status(400).send({error:`nhanvien information must be filled out`})
@@ -51,7 +51,7 @@ module.exports = {
   patch: (req, res) => {
     let data = req.body;
     let Id = req.params.Id;
-    let sql = "UPDATE chamcong SET ? WHERE idChamcong = ?";
+    let sql = "UPDATE chamcongthang SET ? WHERE idChamcongthang = ?";
 
     db.query(sql, [data, Id], (err, response) => {
       if (response == 0) {
@@ -66,7 +66,7 @@ module.exports = {
   },
   store: (req, res) => {
     let data = req.body;
-    let sql = "INSERT INTO `chamcong` SET ?";
+    let sql = "INSERT INTO `chamcongthang` SET ?";
     // if(!data.id ){
 
     //     return res.status(400).send({error: '400' ,message:`nhanvien information must be filled out`})
@@ -74,20 +74,6 @@ module.exports = {
     db.query(sql, [data], (err, response) => {
       if (err) throw err;
       res.json({ message: "Insert successfully!" });
-    });
-  },
-  delete: (req, res) => {
-    let sql = "DELETE FROM chamcong WHERE delId = 1";
-    db.query(sql, [req.params.Id], (err, response) => {
-      if (response.affectedRows == 0) {
-        res.status(404).json({
-          status_code: 404,
-          message: "error",
-        });
-        return;
-      }
-      if (err) throw err;
-      res.json({ message: "Delete successfully!" });
     });
   },
 };

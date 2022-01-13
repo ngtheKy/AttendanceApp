@@ -97,7 +97,7 @@ export default function AddMember({navigation}) {
     Quequan: `${Quequan}`,
     Sdt: `${Sdt}`,
     idDevice: `${idDevice}`,
-    id: `${id}`,
+    // id: `${id}`,
     Diachi: `${Diachi}`,
   };
 
@@ -238,12 +238,12 @@ export default function AddMember({navigation}) {
                 style={{width: 120, height: 120, borderRadius: 120 / 2}}
               />
             </TouchableOpacity>
-            <Input
+            {/* <Input
               onChangeText={() => setName(name)}
               value={name}
               label={'Name'}
               keyboardType="default"
-            />
+            /> */}
             <TouchableOpacity
               onPress={() => uploadImage()}
               style={styles.uploadbtn}>
@@ -308,14 +308,14 @@ export default function AddMember({navigation}) {
         </View>
         <Text style={styles.formHeader}>Hồ sơ nhân viên</Text>
         <View className="Mem-profile" style={styles.form}>
-          <Input
+          {/* <Input
             // onChangeText={(value) => setid(value)}
             value={id}
             label={'Mã Nhân viên'}
             //placeholder={item.id}
             keyboardType="default"
             editable={false}
-          />
+          /> */}
           <Text style={styles.label}>Phòng ban, Bộ phận</Text>
           <Picker
             selectedValue={TenPhongban}
