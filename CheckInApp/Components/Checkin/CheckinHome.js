@@ -81,6 +81,7 @@ const CheckinHome = () => {
   }, [count]);
 
   const post = () => {
+    delete input.timeout;
     axios
       .post(`http://192.168.1.14:3000/chamcong/`, input)
       .then(res => {
@@ -95,11 +96,15 @@ const CheckinHome = () => {
   };
 
   const update = () => {
-    delete input.timein;
+    // delete input.timein;
+    const clone = JSON.parse(JSON.stringify(input));
+    delete clone.timein;
     axios
       .patch(
-        `http://192.168.1.14:3000/chamcong/${chamcong[0].idChamcong}`,
-        input,
+        `http://192.168.1.14:3000/chamcong/${
+          chamcong[chamcong.length - 1].idChamcong
+        }`,
+        clone,
       )
       .then(res => {
         console.log(res.status);
@@ -323,27 +328,35 @@ const CheckinHome = () => {
       setLong(currentLongitude);
     }
 
-    setCount(count + 1);
     if (check == false) {
       //checkin press
       setBtnColor('#f57171');
 
-      if (chamcong.length > 0) {
-        if (date2 == chamcong[chamcong.length - 1].date) {
-          null;
+      if (Object.keys(chamcong).length !== 0) {
+        console.log(Object.keys(chamcong).length !== 0, 'obj != 0');
+        if (date == chamcong[chamcong.length - 1].date) {
+          console.log(
+            date == chamcong[chamcong.length - 1].date,
+            'date = obj.date',
+          );
+        } else if (date !== chamcong[chamcong.length - 1].date) {
+          post();
+          console.log('post0', date == chamcong[chamcong.length - 1].date);
         }
-      } else {
+      } else if (Object.keys(chamcong).length === 0) {
         post();
+        console.log('post1', 'obj = 0', Object.keys(chamcong).length == 0);
       }
       setInput({...input, timeout: timeout});
-      // console.log('checkin');
     } else {
       //checkout press
       setBtnColor('#0796dc');
-
+      console.log('update0');
       update();
     }
     setCheck(!check);
+    setCount(count + 1);
+    console.log(chamcong);
   }
 
   const LogData = ({item}) => {

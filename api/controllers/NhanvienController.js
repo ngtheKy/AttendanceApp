@@ -92,7 +92,7 @@ module.exports = {
     });
   },
   search: (req, res) => {
-    var ten = req.query.TenNV;
+    var ten = req.params.TenNV;
     var sql = `SELECT * FROM nhanvien WHERE TenNV LIKE '%${ten}%'`;
     db.query(sql, [ten], (err, response) => {
       if (err) throw err;

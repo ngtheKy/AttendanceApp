@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import nextId, {useId} from 'react-id-generator';
 import {Picker} from '@react-native-picker/picker';
 import DatePicker from 'react-native-date-picker';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -84,7 +83,7 @@ export default function AddMember({navigation}) {
   const [date, setDate] = useState(new Date(1640995200000));
   const [birthDay, setBirthDay] = useState('1-1-2022');
 
-  const id = nextId('178131000');
+  // const id = nextId('178131000');
 
   const input = {
     TenNV: `${TenNV}`,
