@@ -7,25 +7,20 @@ import Members from '../screens/Members/Members';
 import CheckIn from '../screens/Checkin/CheckIn';
 import Request from '../screens/Request/Request';
 import Business from '../screens/Business/Business';
-import {useRoute} from '@react-navigation/native';
+
+import {createStackNavigator} from 'react-navigation-stack';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const Navigation = () => {
-  // const route = useRoute();
-
-  function tabVisible() {
-    if (route.name == 'Thông tin Công ty') {
-      return 'none';
-    }
-  }
-
+const Navigation = ({route}) => {
+  const data = route.params;
+  // console.log(data);
   return (
     <Tab.Navigator
       initialRouteName="Chấm công"
       barStyle={{
         backgroundColor: 'white',
-        // display: 'none'
+        // display: 'flex', //display,
       }}>
       <Tab.Screen
         name="Chính sách"

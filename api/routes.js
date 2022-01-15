@@ -11,6 +11,11 @@ module.exports = function (app) {
   let Ctrl = require("./controllers/NhanvienController");
   let CtrlAtd = require("./controllers/ChamcongController");
   let CtrlAtdm = require("./controllers/ChamcongthangController");
+  let CtrlCty = require("./controllers/CongtyController");
+  let CtrlPb = require("./controllers/PhongbanController");
+  let CtrlShift = require("./controllers/LichlamController");
+  let Ctrloff = require("./controllers/NghiphepController");
+  let CtrlOT = require("./controllers/TangcaController");
 
   // todoList Routes
   app.route("/nhanvien").get(Ctrl.get).post(Ctrl.store);
@@ -37,6 +42,37 @@ module.exports = function (app) {
     .patch(CtrlAtd.patch)
     .put(CtrlAtd.update);
   app.route("/chamcongthang").get(CtrlAtdm.get).post(CtrlAtdm.store);
+
+  app
+    .route("/congty")
+    .get(CtrlCty.get)
+    .post(CtrlCty.store)
+    .put(CtrlCty.update)
+    .delete(CtrlCty.delete);
+  app
+    .route("/phongban")
+    .get(CtrlPb.get)
+    .post(CtrlPb.store)
+    .put(CtrlPb.update)
+    .delete(CtrlPb.delete);
+  app
+    .route("/lichlamviec")
+    .get(CtrlShift.get)
+    .post(CtrlShift.store)
+    .put(CtrlShift.update)
+    .delete(CtrlShift.delete);
+  app
+    .route("/nghiphep")
+    .get(Ctrloff.get)
+    .post(Ctrloff.store)
+    .put(Ctrloff.update)
+    .delete(Ctrloff.delete);
+  app
+    .route("/tangca")
+    .get(CtrlOT.get)
+    .post(CtrlOT.store)
+    .put(CtrlOT.update)
+    .delete(CtrlOT.delete);
 
   //authentication
   app.post("/register", signupValidation, (req, res, next) => {

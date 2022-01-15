@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {
   StyleSheet,
   Text,
@@ -21,6 +21,8 @@ import Geolocation from 'react-native-geolocation-service';
 import {Icon} from 'react-native-elements';
 import {DataTable} from 'react-native-paper';
 import axios from 'axios';
+
+import AsyncStorage from '@react-native-community/async-storage';
 
 let date = new Date();
 let hours = date.getHours();
@@ -52,11 +54,15 @@ const CheckinHome = () => {
     year: '',
     timein: '',
     timeout: '',
+    id: '',
+    TenNV: '',
   });
   const [btnColor, setBtnColor] = useState('#0796dc');
   const [chamcong, setChamcong] = useState();
   const [dateTrue, setDateTrue] = useState(false);
   const [count, setCount] = useState(0);
+
+  const [jsonData, setJsonData] = useState();
 
   var options = {hour12: false};
   const logs = new Date();
@@ -68,6 +74,7 @@ const CheckinHome = () => {
   const month = logs.getMonth() + 1;
   const date2 = `${date}/${month}`;
 
+  // console.log(jsonData[0].id);
   useEffect(() => {
     axios
       .get(`http://192.168.1.14:3000/chamcong`)
@@ -80,6 +87,14 @@ const CheckinHome = () => {
       .catch(error => console.log(error));
   }, [count]);
 
+  useEffect(() => {
+    const getData = async () => {
+      const jsonValue = await AsyncStorage.getItem('userdata');
+      setJsonData(JSON.parse(jsonValue));
+    };
+    getData();
+  }, [count]);
+  // console.log(jsonData[0].id);
   const post = () => {
     delete input.timeout;
     axios
@@ -98,6 +113,7 @@ const CheckinHome = () => {
   const update = () => {
     // delete input.timein;
     const clone = JSON.parse(JSON.stringify(input));
+    console.log(clone);
     delete clone.timein;
     axios
       .patch(
@@ -146,7 +162,7 @@ const CheckinHome = () => {
       // console.log(day);
     }
     DayinWeek();
-    if (day == 'Chủ nhật') {
+    if (day == 'Thứ 2') {
       // console.log(day == 'Thứ 5');
       chamcong.map(item => {
         delete item.idChamcong;
@@ -268,6 +284,7 @@ const CheckinHome = () => {
     const min = logs.getMinutes();
     const timein = `${hour}:${min}`.toLocaleString('en-US', options);
     const date2 = `${date}/${month}`;
+
     // setInput({
     //   lat: lat,
     //   long: long,
@@ -276,6 +293,8 @@ const CheckinHome = () => {
     //   year: year,
     //   timein: timein,
     // });
+    // console.log(jsonData);
+
     function Week() {
       switch (new Date().getDay()) {
         case 0:
@@ -309,6 +328,10 @@ const CheckinHome = () => {
           year: year,
           timein: timein,
           Weekday: day,
+          // id: `${jsonData != null ? jsonData[0].id : null}`,
+          // TenNV: `${jsonData != null ? jsonData[0].username : null}`,
+          // id: 1,
+          // TenNV: 1,
         })
       );
 
@@ -320,6 +343,7 @@ const CheckinHome = () => {
   if (count === 1000) {
     setCount(0);
   }
+
   function marker() {
     if (currentLatitude !== null) {
       setLat(currentLatitude);
@@ -333,30 +357,34 @@ const CheckinHome = () => {
       setBtnColor('#f57171');
 
       if (Object.keys(chamcong).length !== 0) {
-        console.log(Object.keys(chamcong).length !== 0, 'obj != 0');
+        // console.log(Object.keys(chamcong).length !== 0, 'obj != 0');
         if (date == chamcong[chamcong.length - 1].date) {
-          console.log(
-            date == chamcong[chamcong.length - 1].date,
-            'date = obj.date',
-          );
+          // console.log(
+          //   date == chamcong[chamcong.length - 1].date,
+          //   'date = obj.date',
+          // );
         } else if (date !== chamcong[chamcong.length - 1].date) {
           post();
-          console.log('post0', date == chamcong[chamcong.length - 1].date);
+          // console.log('post0', date == chamcong[chamcong.length - 1].date);
         }
       } else if (Object.keys(chamcong).length === 0) {
         post();
-        console.log('post1', 'obj = 0', Object.keys(chamcong).length == 0);
+        // console.log('post1', 'obj = 0', Object.keys(chamcong).length == 0);
       }
-      setInput({...input, timeout: timeout});
+      setInput({
+        ...input,
+        timeout: timeout,
+        id: jsonData[0].id,
+        TenNV: jsonData[0].username,
+      });
     } else {
       //checkout press
       setBtnColor('#0796dc');
-      console.log('update0');
+      // console.log('update0');
       update();
     }
     setCheck(!check);
     setCount(count + 1);
-    console.log(chamcong);
   }
 
   const LogData = ({item}) => {
