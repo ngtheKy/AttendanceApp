@@ -43,7 +43,7 @@ const Login = ({navigation}) => {
     }
     formBody = formBody.join('&');
 
-    fetch('http://192.168.1.14:3000/login', {
+    fetch('http://192.168.43.101:3000/login', {
       method: 'POST',
       body: formBody,
       headers: {

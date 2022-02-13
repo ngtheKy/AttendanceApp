@@ -18,7 +18,7 @@ export default function TimeSheet() {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/chamcongthang`)
+      .get(`http://192.168.43.101:3000/chamcongthang`)
       .then(res => {
         const chamcong = res.data.chamcong;
         setData(chamcong);

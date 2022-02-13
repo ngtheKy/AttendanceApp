@@ -28,7 +28,7 @@ export default function RequestHome({navigation}) {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/phongban`)
+      .get(`http://192.168.43.101:3000/phongban`)
       .then(res => {
         const phongban = res.data.phongban;
         setData(phongban);

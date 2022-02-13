@@ -102,7 +102,7 @@ export default function AddMember({navigation}) {
 
   const update = ({navigation}) => {
     axios
-      .post(`http://192.168.1.14:3000/nhanvien/`, input)
+      .post(`http://192.168.43.101:3000/nhanvien/`, input)
       .then(res => {
         console.log(res.status);
         Alert.alert('Hồ sơ nhân viên', 'Thêm mới thành công!', [

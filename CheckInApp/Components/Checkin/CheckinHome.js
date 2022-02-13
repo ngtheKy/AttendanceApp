@@ -77,7 +77,7 @@ const CheckinHome = () => {
   // console.log(jsonData[0].id);
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/chamcong`)
+      .get(`http://192.168.43.101:3000/chamcong`)
       .then(res => {
         const data = res.data.chamcong;
         setChamcong(data);
@@ -98,7 +98,7 @@ const CheckinHome = () => {
   const post = () => {
     delete input.timeout;
     axios
-      .post(`http://192.168.1.14:3000/chamcong/`, input)
+      .post(`http://192.168.43.101:3000/chamcong/`, input)
       .then(res => {
         console.log(res.status);
         // Alert.alert('Chấm công', 'Check in thành công!', [
@@ -117,7 +117,7 @@ const CheckinHome = () => {
     delete clone.timein;
     axios
       .patch(
-        `http://192.168.1.14:3000/chamcong/${
+        `http://192.168.43.101:3000/chamcong/${
           chamcong[chamcong.length - 1].idChamcong
         }`,
         clone,
@@ -168,7 +168,7 @@ const CheckinHome = () => {
         delete item.idChamcong;
         delete item.delId;
         axios
-          .post(`http://192.168.1.14:3000/chamcongthang/`, item)
+          .post(`http://192.168.43.101:3000/chamcongthang/`, item)
           .then(res => {
             console.log(res.status);
             // Alert.alert('Chấm công', 'Check in thành công!', [
@@ -180,7 +180,7 @@ const CheckinHome = () => {
           .catch(error => console.log(error));
       });
       axios
-        .delete(`http://192.168.1.14:3000/chamcong`)
+        .delete(`http://192.168.43.101:3000/chamcong`)
         .then(res => {
           // console.log(res);
           console.log(res.data);

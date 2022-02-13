@@ -59,7 +59,7 @@ const PolicyHome = ({navigation}) => {
             }}
             style={styles.img}
           />
-          <Text>Công ty Cổ phần DEHA Việt Nam</Text>
+          <Text>Công ty Cổ phần Việt Nam</Text>
         </View>
         <TouchableOpacity
           style={{backgroundColor: 'white', marginRight: 15}}

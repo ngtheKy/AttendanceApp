@@ -45,7 +45,7 @@ const MemberDetail = ({route, navigation}) => {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/nhanvien/${data.id}`)
+      .get(`http://192.168.43.101:3000/nhanvien/${data.id}`)
       .then(res => {
         const member = res.data.nhanvien;
         setItem(member);

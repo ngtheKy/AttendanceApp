@@ -38,7 +38,7 @@ const MembersHome = ({navigation}) => {
 
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/nhanvien`)
+      .get(`http://192.168.43.101:3000/nhanvien`)
       .then(res => {
         const member = res.data.nhanvien;
         setMemberData(member);
@@ -107,7 +107,7 @@ const MembersHome = ({navigation}) => {
 
   function Delete() {
     axios
-      .delete(`http://192.168.1.14:3000/nhanvien/${delId}`)
+      .delete(`http://192.168.43.101:3000/nhanvien/${delId}`)
       .then(res => {
         // console.log(res);
         console.log(res.data);

@@ -71,7 +71,7 @@ const updateInfoMember = ({route, navigation}) => {
   // let dummy = {"TenNV":"Ky", "Email":"ky.ky.ky.ngtk@gmail.com"}
   useEffect(() => {
     axios
-      .get(`http://192.168.1.14:3000/nhanvien/${data.id}`)
+      .get(`http://192.168.43.101:3000/nhanvien/${data.id}`)
       .then(res => {
         const member = res.data.nhanvien;
         setItem(member);
@@ -85,7 +85,7 @@ const updateInfoMember = ({route, navigation}) => {
 
   const update = () => {
     axios
-      .patch(`http://192.168.1.14:3000/nhanvien/${data.id}`, input)
+      .patch(`http://192.168.43.101:3000/nhanvien/${data.id}`, input)
       .then(res => {
         console.log(res.status);
         Alert.alert('Thông báo', 'Cập nhật thông tin thành công', [
